@@ -47,8 +47,6 @@ $('#js_add_todo').on('click', function(){
 
 		//JSONファイルの取得
 		getTodoData(ajaxUrl, ajaxType);
-	} else {
-		alert('必須項目が入力されていません')
 	}
 });
 
@@ -72,6 +70,7 @@ var getTodoData = function(url, type){
 		data: $('#js_todos').serialize(),
 		timeout: 10000,
 	}).done(function(data, status, xhr) {
+console.log(data);
 		//通信の成功時
 		for (i = 0, max = data.length; i < max; i++) {
 			//TODOデータの取得
