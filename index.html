@@ -1,0 +1,43 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="ja"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>TODOS</title>
+    <meta name="description" content="JS研修課題のtodo作成">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body id="js_body">
+    <div class="l_wrapper">
+        <h1>TODOS</h1>
+        <!-- メニュータブ -->
+        <ul id="js_todo_menu" class="tab">
+            <li id="js_add_tab">TODOの追加</li>
+            <li id="js_list_tab">TODO一覧の表示</li>
+        </ul>
+            <!-- Todo追加するための入力フォーム／ボタンの表示 -->
+        <div class="bx_todo_add clearfix">
+            <h2 id="js_todo_tit" class="tx_todo_tit"></h2>
+
+            <form id="js_todos">
+                <!-- 入力フォーム -->
+                <label id="js_label_name" for="js_input_name">名前<span class="tx_attention">※必須項目です</span></label>
+                <input id="js_input_name" class="frm_todo_input" type="text" name="app_name" placeholder="名前を入力" value="" autofocus>
+                <label id="js_label_todo" for="js_input_todo">Todo<span class="tx_attention">※必須項目です</span></label>
+                <input id="js_input_todo" class="frm_todo_input" type="text" name="body" placeholder="Todoを入力" value="">
+            </form>
+
+            <!-- ボタン -->
+            <button id="js_add_todo" class="btn fl_r">追加</button>
+            <button id="js_display_todo" class="btn fl_r">表示</button>
+            <!-- <button id="js_delete_all" class="btn btn_delete_all fl_l">全削除</button> -->
+        </div>
+        <!-- Todo一覧 -->
+        <ul id="js_todo_content" class="bx_todo_content"></ul>
+    </div>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>

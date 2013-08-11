@@ -1,0 +1,201 @@
+@import "normalize";
+@import "compass/css3";
+
+body {
+    background: #fefee9;
+    color: #333;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+}
+
+// Layout
+.l_wrapper {
+    margin: 0 auto;
+    padding-bottom: 10px;
+    width: 650px;
+    border: 1px solid #ccc;
+    border-top: none;
+    background-color: #fff;
+}
+
+// Helper
+.fl_l {
+    float: left;
+}
+.fl_r {
+    float: right;
+}
+.clearfix:before ,
+.clearfix:after {
+    display: table;
+    content: "";
+}
+.clearfix:after {
+    clear: both;
+}
+
+// Form
+.frm_todo_input {
+    @include box-sizing(border-box);
+    display: block;
+    margin: 0 10px 14px 0;
+    padding: 18px 10px;
+    min-height: 24px;
+    width: 100%;
+    font-size: 20px;
+}
+
+// Text
+.tx_add_time {
+    font-size: 14px;
+    text-align: right;
+}
+.tx_attention {
+    margin-left: 8px;
+    color: #f00;
+}
+.tx_todo_tit {
+    margin: 12px 0;
+}
+
+// Box
+.bx_todo_add {
+    margin: 0 20px 20px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    & label {
+        font-weight: bold;
+    }
+}
+.bx_todo_content {
+    @include border-radius(5px);
+    overflow-y: hidden;
+    margin: 40px 20px 20px;
+    padding: 0;
+    border: 1px solid #aebac5;
+    list-style-type: none;
+}
+.bx_todo_item {
+    padding: 10px;
+    border-bottom: 1px solid #aebac5;
+    &:last-child {
+        border-bottom: none;
+    }
+    &:nth-child(even) {
+        background-color: #e8ecf0;
+    }
+    & button {
+        margin-right: 12px;
+    }
+}
+.bx_add_time {
+    display: block;
+}
+.bx_tx_todo {
+    display: block;
+    margin: 12px 0;
+    padding: 18px 0;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+//Button
+.btn {
+  @include box-shadow(inset 0px 1px 0px rgba(255, 255, 255, 0.5), 0px 1px 2px rgba(0, 0, 0, 0.15));
+  display: inline-block;
+  padding: 12px 36px;
+  border: 1px solid #b6b6b6;
+  background-color: #eee;
+  color: #333;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 1px 1px white;
+  cursor: pointer;
+  @include background(linear-gradient(top, #fbfbfb, #e1e1e1));
+  @include border-radius(3px);
+    &:active {
+        @include box-shadow(inset 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 1px 0px white);
+        text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.4);
+        background: #eee;
+        color: #bbb;
+    }
+}
+.btn_delete_all {
+    margin: 0;
+}
+
+.tab {
+    margin: 20px 20px 0;
+    padding: 0;
+    & >li {
+        @include border-radius(3px 3px 0 0);
+        display: inline-block;
+        margin-right: 12px;
+        padding: 12px 20px;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        background-color: #eee;
+        cursor: pointer;
+        &:last-child {
+            margin-right: 0;
+        }
+        &.is_active {
+            background-color: #aca8a6;
+            font-weight: bold;
+        }
+    }
+}
+
+// is
+h1 {
+    margin: 0;
+    padding: .5em 10px;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px #aaa;
+    font-size: 36px;
+    .is_design1 & {
+        background-color: #145090;
+    }
+    .is_design2 & {
+        background-color: #542437;
+    }
+    .is_design3 & {
+        background-color: #fe4365;
+    }
+    .is_design4 & {
+        background-color: #556270;
+    }
+    .is_design5 & {
+        background-color: #774f38;
+    }
+}
+.is_checked {
+    #js_body & {
+        background-color: #333;
+        color: #999;
+        opacity: .8;
+    }
+}
+
+.is_editing {
+    .bx_input_edit {
+        display: block;
+        margin: 12px 0;
+        padding: 18px 0;
+        font-weight: 700;
+        font-size: 20px;
+    }
+    .bx_btn_rewrite {
+        display: inline-block;
+    }
+    .js_btn_edit ,
+    .js_tx_todo ,
+    .js_btn_edit {
+        display: none;
+    }
+}
+.bx_input_edit ,
+.bx_btn_rewrite {
+    display: none;
+}
