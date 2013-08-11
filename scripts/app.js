@@ -54,15 +54,13 @@ $('#js_add_todo').on('click', function(){
 
 //TODO一覧の表示
 $('#js_display_todo').on('click', function(){
-	if($('#js_input_name').val() !== '') {
+	if($('#js_todo_content').css('display') === 'none') {
 		//Ajax通信の設定
 		var ajaxUrl = '?app_name=' + $('#js_input_name').val(),
 				ajaxType = 'GET'
 
 		//JSONデータの取得
 		getTodoData(ajaxUrl, ajaxType);
-	} else {
-		alert('必須項目が入力されていません')
 	}
 });
 
@@ -134,6 +132,26 @@ debugger;
 			});
 		});
 
+		//ボタンを上に移動する
+		//TASK ここを関数化したい && 一番上か下の場合はボタンを無効化 && バグってる
+		$('.js_btn_down').on('click', function() {
+			$(this).parent().insertAfter($(this).parent().next()).animate({
+				opacity: .4
+			}, 400, 'linear', function(){
+				$(this).css({'opacity': ''});
+			});
+		});
+
+		//ボタンを下に移動する
+		//TASK ここを関数化したい
+		$('.js_btn_up').on('click', function() {
+			$(this).parent().insertBefore($(this).parent().prev()).animate({
+				opacity: .4
+			}, 400, 'linear', function(){
+				$(this).css({'opacity': ''});
+			});
+		});
+
 		//Editボタンをクリックして編集可能にする
 		$('.js_btn_edit').on('click', function(){
 			todoEdit($(this));
@@ -156,7 +174,7 @@ debugger;
 			$todoItem.addClass('is_editing');
 
 			//編集終了ボタンが押されたときの処理
-			$js_btn_rewrite.on('click', function(){
+			$todoItem.find('.js_btn_rewrite').on('click', function(){
 				//Ajax通信の設定
 				$.ajax({
 					url: 'http://cshooljs.dynalogue.com/api/memo/',
@@ -180,30 +198,6 @@ debugger;
 		var target = $('<p></p>').insertAfter('#js_todo_tit');
 debugger;
 		target.text('エラーです。入力項目が空になっていないか、通信が正しく行われているかご確認いただいてから再度お試しください。').css({'color': 'red', 'fontWeight': 'bold'});
-	});
-
-	//ボタンを上に移動する
-	//TASK ここを関数化したい && 一番上か下の場合はボタンを無効化 && バグってる
-	$('.js_btn_down').on('click', function() {
-debugger;
-console.log($(this));
-console.log($(this).parent());
-console.log($(this).parent().next());
-		$(this).parent().insertAfter($(this).parent().next()).animate({
-			opacity: .4
-		}, 400, 'linear', function(){
-			$(this).css({'opacity': '', 'backgroundColor': ''});
-		});
-	});
-
-	//TASK ここを関数化したい
-	//Todoリストが２個以上だったら、ボタンを有効化
-	$('.js_btn_up').on('click', function() {
-		$(this).parent().insertBefore($(this).parent().prev()).animate({
-			opacity: .4
-		}, 400, 'linear', function(){
-			$(this).css({'opacity': '', 'backgroundColor': ''});
-		});
 	});
 }
 
