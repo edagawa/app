@@ -52,12 +52,16 @@ $('#js_add_todo').on('click', function(){
 
 //TODO一覧の表示
 $('#js_display_todo').on('click', function(){
+	//Ajax通信の設定
+	var ajaxUrl = '?app_name=' + $('#js_input_name').val(),
+			ajaxType = 'GET'
 	if($('#js_todo_content').css('display') === 'none') {
-		//Ajax通信の設定
-		var ajaxUrl = '?app_name=' + $('#js_input_name').val(),
-				ajaxType = 'GET'
 
 		//JSONデータの取得
+		getTodoData(ajaxUrl, ajaxType);
+	} else {
+		//表示されているTODOリストを削除
+		$('#js_todo_content').hide().find('li').remove();
 		getTodoData(ajaxUrl, ajaxType);
 	}
 });
@@ -70,7 +74,6 @@ var getTodoData = function(url, type){
 		data: $('#js_todos').serialize(),
 		timeout: 10000,
 	}).done(function(data, status, xhr) {
-console.log(data);
 		//通信の成功時
 		for (i = 0, max = data.length; i < max; i++) {
 			//TODOデータの取得
@@ -90,7 +93,7 @@ console.log(data);
 					js_btn_down = '<button class="btn js_btn_down">下へ移動</button>',
 					js_btn_edit = '<button class="btn js_btn_edit">編集</button>',
 					js_btn_complete = '<button class="btn js_btn_complete">完了</button>',
-					$js_btn_rewrite = $('<button class="btn js_btn_rewrite bx_btn_rewrite">編集</button>'),
+					$js_btn_rewrite = $('<button class="btn js_btn_rewrite bx_btn_rewrite">修正</button>'),
 					js_add_time = '<p class="tx_add_time js_add_time">' + dataCreated + '</p>',
 					todoForm = $(js_todo_form).append(js_tx_todo).append(js_todo_edit).append(js_todo_id).append(js_todo_name),
 					todoElm = $(js_todo_item).append(todoForm).append(js_btn_up).append(js_btn_down).append(js_btn_edit).append($js_btn_rewrite).append(js_btn_complete).append(js_add_time);
@@ -124,7 +127,6 @@ console.log(data);
 					}
 				});
 			}).fail(function(xhr, status, error) {
-debugger;
 				//通信の失敗時
 				var target = $('<p></p>').insertAfter('#js_todo_tit');
 				target.text('エラーです。入力項目が空になっていないか、通信が正しく行われているかご確認いただいてから再度お試しください。').css({'color': 'red', 'fontWeight': 'bold'});
@@ -158,7 +160,7 @@ debugger;
 
 		//TODOのテキストをダブルクリックして編集可能にする
 		$('.js_tx_todo').on('dblclick', function(){
-			todoEdit($(this));
+			todoEdit($(this).parent('.js_todo_form'));
 		});
 
 		//テキストを編集可能にするための関数
@@ -195,7 +197,6 @@ debugger;
 	}).fail(function(xhr, status, error) {
 		//通信の失敗時
 		var target = $('<p></p>').insertAfter('#js_todo_tit');
-debugger;
 		target.text('エラーです。入力項目が空になっていないか、通信が正しく行われているかご確認いただいてから再度お試しください。').css({'color': 'red', 'fontWeight': 'bold'});
 	});
 }
@@ -205,16 +206,5 @@ if($('.js_todo_item').length === 0) {
 	//リストを囲むul要素を非表示にする
 	$(js_todo_content).hide();
 }
-
-//追加した要素の全削除
-$(deleteAllBtn).on('click', function(){
-	if (confirm('Are you sure you want to delete all items?')) {
-		//ul要素を非表示にして、li要素を削除する
-		$(js_todo_content).hide().find('li').remove();
-
-		//全削除ボタンの無効化
-		$(deleteAllBtn).css('opacity', '.6').attr('disabled', true);
-	}
-});
 
 });
