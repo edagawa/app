@@ -126,8 +126,7 @@ $(function () {
 					});
 				}).fail(function () {
 					//通信の失敗時
-					var target = $('<p></p>').insertAfter('#js_todo_tit');
-					target.text('エラーです。入力項目が空になっていないか、通信が正しく行われているかご確認いただいてから再度お試しください。').css({'color': 'red', 'fontWeight': 'bold'});
+					displayErrorText();
 				});
 			});
 
@@ -187,16 +186,19 @@ $(function () {
 						$todoItem.removeClass('is_editing');
 					}).fail(function () {
 						//通信の失敗時
-						var target = $('<p></p>').insertAfter('#js_todo_tit');
-						target.text('エラーです。入力項目が空になっていないか、通信が正しく行われているかご確認いただいてから再度お試しください。').css({'color': 'red', 'fontWeight': 'bold'});
+						displayErrorText();
 					});
 				});
 			}
 		}).fail(function () {
 			//通信の失敗時
+			displayErrorText();
+		});
+		//エラー時にエラー文言を表示する関数
+		function displayErrorText() {
 			var target = $('<p></p>').insertAfter('#js_todo_tit');
 			target.text('エラーです。入力項目が空になっていないか、通信が正しく行われているかご確認いただいてから再度お試しください。').css({'color': 'red', 'fontWeight': 'bold'});
-		});
+		}
 	};
 
 	//TODOリストが０の場合
