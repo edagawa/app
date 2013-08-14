@@ -75,11 +75,24 @@ $(function () {
 			timeout: 10000
 		}).done(function (data) {
 			//通信の成功時
-			if (typeof data == 'object') {
+			if (data.length > 0) {	//TODOリストを表示する場合
+				for (var i = 0, max = data.length; i < max; i++) {
+					//TODOデータの取得
+					var dataBody = data[i].body,
+							dataCreated = data[i].created,
+							dataId = data[i].id,
+							dataName = data[i].app_name;
+					todoCreate();
+				}
+			} else {	//TODOを新規追加する場合
 				var dataBody = data.body,
 						dataCreated = data.created,
 						dataId = data.id,
 						dataName = data.app_name;
+				todoCreate();
+			}
+			//TODO要素を生成
+			function todoCreate () {
 				//TODOデータの取得
 				var js_todo_item = '<li class="js_todo_item bx_todo_item"></li>',
 						js_todo_form = '<form class="js_todo_form"></form>',
@@ -99,30 +112,7 @@ $(function () {
 				//TODOをリストに追加する
 				$todoElm.prependTo(js_todo_content);
 			}
-			for (var i = 0, max = data.length; i < max; i++) {
-				//TODOデータの取得
-				var dataBody = data[i].body,
-						dataCreated = data[i].created,
-						dataId = data[i].id,
-						dataName = data[i].app_name,
-						js_todo_item = '<li class="js_todo_item bx_todo_item"></li>',
-						js_todo_form = '<form class="js_todo_form"></form>',
-						js_tx_todo = '<label class="js_tx_todo bx_tx_todo">' + dataBody + '</label>',
-						js_todo_edit = '<input type="text" class="js_todo_edit bx_input_edit" name="body" value="' + dataBody + '">',
-						js_todo_id = '<input type="hidden" class="js_todo_id" name="id" value="' + dataId + '">',
-						js_todo_name = '<input type="hidden" class="js_todo_name" name="app_name" value="' + dataName + '">',
-						js_btn_up = '<button class="btn js_btn_up">上へ移動</button>',
-						js_btn_down = '<button class="btn js_btn_down">下へ移動</button>',
-						js_btn_edit = '<button class="btn js_btn_edit">編集</button>',
-						js_btn_complete = '<button class="btn js_btn_complete">完了</button>',
-						$js_btn_rewrite = $('<button class="btn js_btn_rewrite bx_btn_rewrite">修正</button>'),
-						js_add_time = '<p class="tx_add_time js_add_time">' + dataCreated + '</p>',
-						todoForm = $(js_todo_form).append(js_tx_todo).append(js_todo_edit).append(js_todo_id).append(js_todo_name),
-						todoElm = $(js_todo_item).append(todoForm).append(js_btn_up).append(js_btn_down).append(js_btn_edit).append($js_btn_rewrite).append(js_btn_complete).append(js_add_time),
-						$todoElm = (todoElm);
-				//TODOをリストに追加する
-				$todoElm.appendTo(js_todo_content);
-			}
+
 			//リストを囲むul要素を表示する
 			$(js_todo_content).show();
 
