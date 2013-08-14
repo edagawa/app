@@ -467,25 +467,26 @@ body {
 .tx_attention {
   margin-left: 8px;
   color: #f00;
+  font-weight: bold;
 }
 
-/* line 57, main.scss */
+/* line 58, main.scss */
 .tx_todo_tit {
   margin: 12px 0;
 }
 
-/* line 62, main.scss */
+/* line 63, main.scss */
 .bx_todo_add {
   margin: 0 20px 20px;
   padding: 12px;
   border: 1px solid #ccc;
 }
-/* line 66, main.scss */
+/* line 67, main.scss */
 .bx_todo_add label {
   font-weight: bold;
 }
 
-/* line 70, main.scss */
+/* line 71, main.scss */
 .bx_todo_content {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -499,30 +500,30 @@ body {
   list-style-type: none;
 }
 
-/* line 78, main.scss */
+/* line 79, main.scss */
 .bx_todo_item {
   padding: 10px;
   border-bottom: 1px solid #aebac5;
 }
-/* line 81, main.scss */
+/* line 82, main.scss */
 .bx_todo_item:last-child {
   border-bottom: none;
 }
-/* line 84, main.scss */
+/* line 85, main.scss */
 .bx_todo_item:nth-child(even) {
   background-color: #e8ecf0;
 }
-/* line 87, main.scss */
+/* line 88, main.scss */
 .bx_todo_item button {
   margin-right: 12px;
 }
 
-/* line 91, main.scss */
+/* line 92, main.scss */
 .bx_add_time {
   display: block;
 }
 
-/* line 94, main.scss */
+/* line 95, main.scss */
 .bx_tx_todo {
   display: block;
   margin: 12px 0;
@@ -531,7 +532,7 @@ body {
   font-size: 20px;
 }
 
-/* line 103, main.scss */
+/* line 104, main.scss */
 .btn {
   -webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.5), 0px 1px 2px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.5), 0px 1px 2px rgba(0, 0, 0, 0.15);
@@ -556,7 +557,7 @@ body {
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 116, main.scss */
+/* line 117, main.scss */
 .btn:active {
   -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 1px 0px white;
   -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 1px 0px white;
@@ -566,17 +567,17 @@ body {
   color: #bbb;
 }
 
-/* line 123, main.scss */
+/* line 124, main.scss */
 .btn_delete_all {
   margin: 0;
 }
 
-/* line 127, main.scss */
+/* line 128, main.scss */
 .tab {
   margin: 20px 20px 0;
   padding: 0;
 }
-/* line 130, main.scss */
+/* line 131, main.scss */
 .tab > li {
   -webkit-border-radius: 3px 3px 0 0;
   -moz-border-radius: 3px 3px 0 0;
@@ -591,17 +592,17 @@ body {
   background-color: #eee;
   cursor: pointer;
 }
-/* line 139, main.scss */
+/* line 140, main.scss */
 .tab > li:last-child {
   margin-right: 0;
 }
-/* line 142, main.scss */
+/* line 143, main.scss */
 .tab > li.is_active {
   background-color: #aca8a6;
   font-weight: bold;
 }
 
-/* line 150, main.scss */
+/* line 151, main.scss */
 h1 {
   margin: 0;
   padding: .5em 10px;
@@ -610,35 +611,35 @@ h1 {
   text-shadow: 0 1px #aaa;
   font-size: 36px;
 }
-/* line 157, main.scss */
+/* line 158, main.scss */
 .is_design1 h1 {
   background-color: #145090;
 }
-/* line 160, main.scss */
+/* line 161, main.scss */
 .is_design2 h1 {
   background-color: #542437;
 }
-/* line 163, main.scss */
+/* line 164, main.scss */
 .is_design3 h1 {
   background-color: #fe4365;
 }
-/* line 166, main.scss */
+/* line 167, main.scss */
 .is_design4 h1 {
   background-color: #556270;
 }
-/* line 169, main.scss */
+/* line 170, main.scss */
 .is_design5 h1 {
   background-color: #774f38;
 }
 
-/* line 174, main.scss */
+/* line 175, main.scss */
 #js_body .is_checked {
   background-color: #333;
   color: #999;
   opacity: .8;
 }
 
-/* line 182, main.scss */
+/* line 183, main.scss */
 .is_editing .bx_input_edit {
   display: block;
   margin: 12px 0;
@@ -646,18 +647,18 @@ h1 {
   font-weight: 700;
   font-size: 20px;
 }
-/* line 189, main.scss */
+/* line 190, main.scss */
 .is_editing .bx_btn_rewrite {
   display: inline-block;
 }
-/* line 194, main.scss */
+/* line 195, main.scss */
 .is_editing .js_btn_edit,
 .is_editing .js_tx_todo,
 .is_editing .js_btn_edit {
   display: none;
 }
 
-/* line 199, main.scss */
+/* line 200, main.scss */
 .bx_input_edit,
 .bx_btn_rewrite {
   display: none;

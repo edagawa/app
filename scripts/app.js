@@ -111,9 +111,11 @@ $(function () {
 				$.ajax({
 					url: 'http://cshooljs.dynalogue.com/api/memo/' + completeId + '/?app_name=' + completeName,
 					type: 'DELETE',
-					data: $(this).parent().find('.js_todo_form').serialize(),
+					//data: $(this).parent().find('.js_todo_form').serialize(),
 					timeout: 10000
 				}).done(function () {
+console.log($todoItem);
+debugger;
 					//通信の成功時
 					//テキストを「Complete!」として表示を消す
 					$(this).parent().css({'padding': '3em 0 3em 12px', 'fontWeight': 'bold'}).html('Complete!').fadeOut('slow', function () {
@@ -190,14 +192,26 @@ $(function () {
 					});
 				});
 			}
+
+			//エラー文言の削除
+			removeErrorText();
 		}).fail(function () {
 			//通信の失敗時
 			displayErrorText();
 		});
 		//エラー時にエラー文言を表示する関数
 		function displayErrorText() {
-			var target = $('<p></p>').insertAfter('#js_todo_tit');
-			target.text('エラーです。入力項目が空になっていないか、通信が正しく行われているかご確認いただいてから再度お試しください。').css({'color': 'red', 'fontWeight': 'bold'});
+			if ($('.js_error_text').length === 0) {
+				var target = $('<p></p>').insertAfter('#js_todo_tit');
+				target.text('エラーです。入力項目が空になっていないか、通信が正しく行われているかご確認いただいてから再度お試しください。').addClass('tx_attention js_error_text').off();
+			}
+		}
+
+		//エラー文言の削除する
+		function removeErrorText() {
+			if ($('.js_error_text').length > 0) {
+				$('.js_error_text').remove();
+			}
 		}
 	};
 
