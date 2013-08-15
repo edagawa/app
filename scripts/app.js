@@ -1,14 +1,7 @@
 $(function () {
-	'use strict';
 
 	//HTML要素の変数設定
-	var js_btn_complete = $('.js_btn_complete'),
-			js_btn_down = $('.js_btn_down'),
-			js_btn_edit = $('.js_btn_edit'),
-			js_btn_up = $('.js_btn_up'),
-			js_error_text = $('.js_error_text'),
-			js_todo_item = $('.js_todo_item'),
-			js_tx_todo = $('.js_tx_todo'),
+	var js_todo_item = $('.js_todo_item'),
 			js_add_tab = $('#js_add_tab'),
 			js_add_todo = $('#js_add_todo'),
 			js_body = $('#js_body'),
@@ -54,7 +47,7 @@ $(function () {
 		}
 	});
 
-	//TODOの追加
+	//TODOの追加ボタンを押したときの処理
 	$(js_add_todo).on('click', function () {
 		//フォームにテキストが入っていたらTodoリストを追加する
 		if (($(js_input_todo).val() !== '') && ($(js_input_name).val() !== '')) {
@@ -64,31 +57,38 @@ $(function () {
 			//JSONファイルの取得
 			getTodoData(ajaxUrl, ajaxType);
 
+			//TODOリストがすでに表示されていた場合
 			if ($(js_todo_content).css('display') === 'block') {
 				$(js_todo_content).hide().find('li').remove();
 				var ajaxUrl = '?app_name=' + $(js_input_name).val(),
 				ajaxType = 'GET';
+
+				//JSONデータの取得
 				getTodoData(ajaxUrl, ajaxType);
-			} else {
+			} else { //TODOリストが空の場合
 				var ajaxUrl = '?app_name=' + $(js_input_name).val(),
 				ajaxType = 'GET';
+
+				//JSONデータの取得
 				getTodoData(ajaxUrl, ajaxType);
 			}
 		}
 	});
 
-	//TODO一覧の表示
+	//TODO一覧を表示するボタンを押したときの処理
 	$(js_display_todo).on('click', function () {
 		//Ajax通信の設定
 		var ajaxUrl = '?app_name=' + $(js_input_name).val(),
 				ajaxType = 'GET';
-		if ($(js_todo_content).css('display') === 'none') {
+		if ($(js_todo_content).css('display') === 'none') { //TODOリストが空の場合
 
 			//JSONデータの取得
 			getTodoData(ajaxUrl, ajaxType);
-		} else {
+		} else { //TODOリストがすでに表示されていた場合
 			//表示されているTODOリストを削除
 			$(js_todo_content).hide().find('li').remove();
+
+			//JSONデータの取得
 			getTodoData(ajaxUrl, ajaxType);
 		}
 	});
@@ -100,9 +100,8 @@ $(function () {
 			type: type,
 			data: $(js_todos).serialize(),
 			timeout: 10000
-		}).done(function (data) {
-			//通信の成功時
-			if (data.length > 0) {	//TODOリストを表示する場合
+		}).done(function (data) { //通信の成功時
+			if (data.length > 0) { //TODOリストを表示する場合
 				for (var i = 0, max = data.length; i < max; i++) {
 					//TODOデータの取得
 					var dataBody = data[i].body,
@@ -111,7 +110,7 @@ $(function () {
 							dataName = data[i].app_name;
 					todoCreate();
 				}
-			} else {	//TODOを新規追加する場合
+			} else { //TODOを新規追加する場合
 				var dataBody = data.body,
 						dataCreated = data.created,
 						dataId = data.id,
@@ -119,7 +118,7 @@ $(function () {
 			}
 			//TODO要素を生成
 			function todoCreate() {
-				//TODOデータの取得
+				//TODOデータ（HTML）を変数に代入
 				var js_todo_item = '<li class="js_todo_item bx_todo_item"></li>',
 						js_todo_form = '<form class="js_todo_form"></form>',
 						js_tx_todo = '<label class="js_tx_todo bx_tx_todo">' + dataBody + '</label>',
@@ -139,13 +138,12 @@ $(function () {
 				$todoElm.appendTo(js_todo_content);
 			}
 
-			//リストを囲むul要素を表示する
+			//TODOリストを囲むul要素を表示する
 			if ($(js_todo_content).css('display') === 'none') {
 				$(js_todo_content).show();
 			}
 
-			//ボタンを上に移動する
-			//TASK ここを関数化したい && 一番上か下の場合はボタンを無効化 && バグってる
+			//TODOを上に移動する
 			$('.js_btn_down').on('click', function () {
 				$(this).parent().insertAfter($(this).parent().next()).animate({
 					opacity: 0.4
@@ -154,8 +152,7 @@ $(function () {
 				});
 			});
 
-			//ボタンを下に移動する
-			//TASK ここを関数化したい
+			//TODOを下に移動する
 			$('.js_btn_up').on('click', function () {
 				$(this).parent().insertBefore($(this).parent().prev()).animate({
 					opacity: 0.4
@@ -164,28 +161,28 @@ $(function () {
 				});
 			});
 
-			//Editボタンをクリックして編集可能にする
+			//EditボタンをクリックしてTODOを編集可能にする
 			$('.js_btn_edit').on('click', function () {
 				todoEdit($(this));
 			});
 
-			//TODOのテキストをダブルクリックして編集可能にする
+			//TODOのテキストをダブルクリックしてTODOを編集可能にする
 			$('.js_tx_todo').on('dblclick', function () {
 				todoEdit($(this).parent('.js_todo_form'));
 			});
 
-			//テキストを編集可能にするための関数
+			//TODOのテキストを編集可能にするための関数
 			function todoEdit(elm) {
-				//他にTODO編集中のclassが付いていたら削除する
+				//クリックされたTODO以外にTODO編集中のclassが付いていたらclassを削除する
 				if ($('.js_todo_item').hasClass('is_editing')) {
 					$('.js_todo_item').removeClass('is_editing');
 				}
 				var $todoItem = elm.parent('.js_todo_item');
 
-				//TODOに編集中のclassを追加する
+				//編集するTODOに編集中のclassを追加する
 				$todoItem.addClass('is_editing');
 
-				//編集終了ボタンが押されたときの処理
+				//TODO変更ボタンが押されたときの処理
 				$todoItem.find('.js_btn_rewrite').on('click', function () {
 					//Ajax通信の設定
 					$.ajax({
@@ -193,19 +190,18 @@ $(function () {
 						type: 'PUT',
 						data: $('.is_editing').find('.js_todo_form').serialize(),
 						timeout: 10000
-					}).done(function (data) {
-						//通信の成功時
+					}).done(function (data) { //通信の成功時
 						var text = data.body;
 						$todoItem.find('.js_tx_todo').html(text);
 						$todoItem.removeClass('is_editing');
 					}).fail(function () {
-						//通信の失敗時
+						//エラー文言の削除
 						displayErrorText();
 					});
 				});
 			}
 
-			//TODOを完了する
+			//完了ボタンが押されたらTODOを完了する
 			$('.js_btn_complete').on('click', function () {
 				todoComplete($(this));
 			});
@@ -220,7 +216,7 @@ $(function () {
 					type: 'DELETE',
 					timeout: 10000
 				}).done(function () { //通信の成功時
-					//テキストを「Complete!」として表示を消す
+					//TODOのテキストを「Complete!」と書き換えてTODOを消す
 					$todoItem.css({'padding': '3em 0 3em 12px', 'fontWeight': 'bold'}).html('Complete!').fadeOut('slow', function () {
 						$(this).remove();
 
@@ -236,8 +232,7 @@ $(function () {
 
 			//エラー文言の削除
 			removeErrorText();
-		}).fail(function () {
-			//通信の失敗時
+		}).fail(function () { //通信の失敗時
 			displayErrorText();
 		});
 		//エラー時にエラー文言を表示する関数
