@@ -1,67 +1,94 @@
 $(function () {
 	'use strict';
 
-	//変数設定
-	var js_todo_content = $('#js_todo_content'),
-			js_input_todo = $('#js_input_todo');
+	//HTML要素の変数設定
+	var js_btn_complete = $('.js_btn_complete'),
+			js_btn_down = $('.js_btn_down'),
+			js_btn_edit = $('.js_btn_edit'),
+			js_btn_up = $('.js_btn_up'),
+			js_error_text = $('.js_error_text'),
+			js_todo_item = $('.js_todo_item'),
+			js_tx_todo = $('.js_tx_todo'),
+			js_add_tab = $('#js_add_tab'),
+			js_add_todo = $('#js_add_todo'),
+			js_body = $('#js_body'),
+			js_display_todo = $('#js_display_todo'),
+			js_input_name = $('#js_input_name'),
+			js_input_todo = $('#js_input_todo'),
+			js_label_todo = $('#js_label_todo'),
+			js_list_tab = $('#js_list_tab'),
+			js_todo_content = $('#js_todo_content'),
+			js_todo_menu = $('#js_todo_menu'),
+			js_todo_tit = $('#js_todo_tit'),
+			js_todos = $('#js_todos');
 
 	//body要素にランダムでclassをつけて、見出しの色を変更
-	$('#js_body').addClass('is_design' + (Math.floor(Math.random() * 5) + 1));
+	$(js_body).addClass('is_design' + (Math.floor(Math.random() * 5) + 1));
 
 	//タブの初期状態として「TODOの追加」をアクティブにする
-	if (!$('#js_todo_menu').find('li').hasClass('is_active')) {
-		$('#js_add_tab').addClass('is_active');
-		$('#js_display_todo').hide();
-		$('#js_todo_tit').text('TODOの追加');
+	if (!$(js_todo_menu).find('li').hasClass('is_active')) {
+		$(js_add_tab).addClass('is_active');
+		$(js_display_todo).hide();
+		$(js_todo_tit).text('TODOの追加');
 	}
 
 	//「TODO一覧の表示」をアクティブにする
-	$('#js_list_tab').on('click', function () {
+	$(js_list_tab).on('click', function () {
 		//「TODO一覧の表示」にアクティブ用のclassがなかった場合
 		if (!$(this).hasClass('is_active')) {
 			$(this).addClass('is_active').prev().removeClass('is_active');
-			$('#js_label_todo').hide().next().hide();
-			$('#js_add_todo').hide().next().show();
-			$('#js_todo_tit').text('TODO一覧の表示');
+			$(js_label_todo).hide().next().hide();
+			$(js_add_todo).hide().next().show();
+			$(js_todo_tit).text('TODO一覧の表示');
 		}
 	});
 
 	//「TODOの追加」をアクティブにする
-	$('#js_add_tab').on('click', function () {
+	$(js_add_tab).on('click', function () {
 		//「js_add_tab」にアクティブ用のclassがなかった場合
 		if (!$(this).hasClass('is_active')) {
 			$(this).addClass('is_active').next().removeClass('is_active');
-			$('#js_label_todo').show().next().show();
-			$('#js_add_todo').show().next().hide();
-			$('#js_todo_tit').text('TODOの追加');
+			$(js_label_todo).show().next().show();
+			$(js_add_todo).show().next().hide();
+			$(js_todo_tit).text('TODOの追加');
 		}
 	});
 
 	//TODOの追加
-	$('#js_add_todo').on('click', function () {
+	$(js_add_todo).on('click', function () {
 		//フォームにテキストが入っていたらTodoリストを追加する
-		if (($(js_input_todo).val() !== '') && ($('#js_input_name').val() !== '')) {
+		if (($(js_input_todo).val() !== '') && ($(js_input_name).val() !== '')) {
 			//Ajax通信の設定
 			var ajaxUrl = '',
 					ajaxType = 'POST';
-
 			//JSONファイルの取得
 			getTodoData(ajaxUrl, ajaxType);
+
+			if ($(js_todo_content).css('display') === 'block') {
+				$(js_todo_content).hide().find('li').remove();
+				var ajaxUrl = '?app_name=' + $(js_input_name).val(),
+				ajaxType = 'GET';
+				getTodoData(ajaxUrl, ajaxType);
+			} else {
+				var ajaxUrl = '?app_name=' + $(js_input_name).val(),
+				ajaxType = 'GET';
+				getTodoData(ajaxUrl, ajaxType);
+			}
 		}
 	});
 
 	//TODO一覧の表示
-	$('#js_display_todo').on('click', function () {
+	$(js_display_todo).on('click', function () {
 		//Ajax通信の設定
-		var ajaxUrl = '?app_name=' + $('#js_input_name').val(),
+		var ajaxUrl = '?app_name=' + $(js_input_name).val(),
 				ajaxType = 'GET';
-		if ($('#js_todo_content').css('display') === 'none') {
+		if ($(js_todo_content).css('display') === 'none') {
 
 			//JSONデータの取得
 			getTodoData(ajaxUrl, ajaxType);
 		} else {
 			//表示されているTODOリストを削除
-			$('#js_todo_content').hide().find('li').remove();
+			$(js_todo_content).hide().find('li').remove();
 			getTodoData(ajaxUrl, ajaxType);
 		}
 	});
@@ -71,7 +98,7 @@ $(function () {
 		$.ajax({
 			url: 'http://cshooljs.dynalogue.com/api/memo/' + url,
 			type: type,
-			data: $('#js_todos').serialize(),
+			data: $(js_todos).serialize(),
 			timeout: 10000
 		}).done(function (data) {
 			//通信の成功時
@@ -89,10 +116,9 @@ $(function () {
 						dataCreated = data.created,
 						dataId = data.id,
 						dataName = data.app_name;
-				todoCreate();
 			}
 			//TODO要素を生成
-			function todoCreate () {
+			function todoCreate() {
 				//TODOデータの取得
 				var js_todo_item = '<li class="js_todo_item bx_todo_item"></li>',
 						js_todo_form = '<form class="js_todo_form"></form>',
@@ -104,17 +130,19 @@ $(function () {
 						js_btn_down = '<button class="btn js_btn_down">下へ移動</button>',
 						js_btn_edit = '<button class="btn js_btn_edit">編集</button>',
 						js_btn_complete = '<button class="btn js_btn_complete">完了</button>',
-						$js_btn_rewrite = $('<button class="btn js_btn_rewrite bx_btn_rewrite">修正</button>'),
+						$js_btn_rewrite = $('<button class="btn js_btn_rewrite bx_btn_rewrite">変更</button>'),
 						js_add_time = '<p class="tx_add_time js_add_time">' + dataCreated + '</p>',
 						todoForm = $(js_todo_form).append(js_tx_todo).append(js_todo_edit).append(js_todo_id).append(js_todo_name),
 						todoElm = $(js_todo_item).append(todoForm).append(js_btn_up).append(js_btn_down).append(js_btn_edit).append($js_btn_rewrite).append(js_btn_complete).append(js_add_time),
 						$todoElm = (todoElm);
 				//TODOをリストに追加する
-				$todoElm.prependTo(js_todo_content);
+				$todoElm.appendTo(js_todo_content);
 			}
 
 			//リストを囲むul要素を表示する
-			$(js_todo_content).show();
+			if ($(js_todo_content).css('display') === 'none') {
+				$(js_todo_content).show();
+			}
 
 			//ボタンを上に移動する
 			//TASK ここを関数化したい && 一番上か下の場合はボタンを無効化 && バグってる
@@ -183,33 +211,26 @@ $(function () {
 			});
 			//TODOを完了するための関数
 			function todoComplete(elm) {
-				var $todoItem = elm.parent('.js_todo_item');
+				var $todoItem = elm.parent('.js_todo_item'),
+						completeId = $todoItem.find('.js_todo_id').attr('value'),
+						completeName = $todoItem.find('.js_todo_name').attr('value');
+				//Ajax通信の設定
+				$.ajax({
+					url: 'http://cshooljs.dynalogue.com/api/memo/' + completeId + '/?app_name=' + completeName,
+					type: 'DELETE',
+					timeout: 10000
+				}).done(function () { //通信の成功時
+					//テキストを「Complete!」として表示を消す
+					$todoItem.css({'padding': '3em 0 3em 12px', 'fontWeight': 'bold'}).html('Complete!').fadeOut('slow', function () {
+						$(this).remove();
 
-				//Completeボタンをクリック
-				$todoItem.find('.js_btn_complete').on('click', function () {
-					var completeId = $(this).parent().find('.js_todo_id').attr('value'),
-							completeName = $(this).parent().find('.js_todo_name').attr('value');
-					//Ajax通信の設定
-					$.ajax({
-						url: 'http://cshooljs.dynalogue.com/api/memo/' + completeId + '/?app_name=' + completeName,
-						type: 'DELETE',
-						//data: $(this).parent().find('.js_todo_form').serialize(),
-						timeout: 10000
-					}).done(function () {
-						//通信の成功時
-						//テキストを「Complete!」として表示を消す
-						$todoItem.css({'padding': '3em 0 3em 12px', 'fontWeight': 'bold'}).html('Complete!').fadeOut('slow', function () {
-							$(this).remove();
-
-							//Todoリストが０になった場合、ul要素を非表示にする
-							if ($('.js_todo_item').length === 0) {
-								$('#js_todo_content').hide();
-							}
-						});
-					}).fail(function () {
-						//通信の失敗時
-						displayErrorText();
+						//Todoリストが０になった場合、ul要素を非表示にする
+						if ($('.js_todo_item').length === 0) {
+							$(js_todo_content).hide();
+						}
 					});
+				}).fail(function () { //通信の失敗時
+					displayErrorText();
 				});
 			}
 
@@ -236,7 +257,7 @@ $(function () {
 	};
 
 	//TODOリストが０の場合
-	if ($('.js_todo_item').length === 0) {
+	if ($(js_todo_item).length === 0) {
 		//リストを囲むul要素を非表示にする
 		$(js_todo_content).hide();
 	}
